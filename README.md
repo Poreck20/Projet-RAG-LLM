@@ -26,7 +26,7 @@ Le rapport détaillé du projet, incluant :
 Le script utilisé pour la gestion des données et la mise en œuvre de la chaîne RAG est disponible sous le nom : main.py.
 
 ## 3. Modèle et API utilisés : 
-- Modèle LLM : command-r-plus (via LangChain).
+- Modèle LLM : command-r-plus de Cohere (via LangChain).
 - Embeddings : embed-english-v2.0 (Cohere, version gratuite).
 - API Key : Une clé d'API Cohere a été utilisée pour accéder aux services. (La clé est masquée pour des raisons de sécurité conformément aux bonnes pratiques Git)
 
@@ -36,6 +36,37 @@ Le script utilisé pour la gestion des données et la mise en œuvre de la chaî
 - Recherche augmentée : Utilisation des embeddings pour récupérer des contextes pertinents.
 - Prompting optimisé : Un prompt soigneusement conçu pour structurer les données dans un format de CV clair et - --orienté Data Science.
 - Génération de CV : Création automatique d'un CV enrichi avec un style professionnel.
+
+### Prompt utilisé
+cv_prompt_template = """
+Vous allez générer un CV orienté Data Science à partir des informations suivantes. Organisez les informations de manière claire et professionnelle.
+
+Voici les sections à inclure :
+      DIALLO Alpha 
+1. **Expérience professionnelle**
+    - Inclure toutes les experiences 
+    - Résumer chaque expérience en 2-3 points.
+2. **Compétences techniques**
+    - Liste des outils, langages et frameworks spécifiques à la Data Science.
+    - Inclure des compétences générales comme "résolution de problèmes", "analyse statistique", etc.
+3. **Formation**
+    - Indiquer tous les diplômes et certificats obtenus. Je suis actuellement en Master 1.
+    - Préciser les cours ou spécialisations liés à la Data Science.
+4. **Projets**
+    - Décrire brièvement 2-3 projets pertinents (par exemple, "Prédiction des ventes avec Machine Learning").
+5. **Autres informations**
+    - Langues parlées, hobbies, ou toute autre information pertinente.
+
+6. **Soft skills**
+    - Rajoute des soft skills.
+
+Sections de texte récupérées : {context}
+
+Générez un CV structuré et concis avec des sous-sections claires et des listes à puces. Utilisez un style professionnel et soigné.
+
+"""
+prompt = PromptTemplate(input_variables=["context"], template=cv_prompt_template)
+
 
 ## Exemple de CV généré
 Un exemple de CV structuré et généré automatiquement est disponible dans le fichier output.md, avec les sections suivantes :
